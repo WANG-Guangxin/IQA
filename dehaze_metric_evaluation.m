@@ -81,6 +81,7 @@ niqe = zeros(1, length(file_name));
 robust = zeros(1, length(file_name));
 sseq = zeros(1, length(file_name));
 r = zeros(1,length(file_name));
+e = zeros(1,length(file_name));
 nr_fqa = zeros(1,length(file_name));
 %=========================================================================%
 
@@ -88,8 +89,8 @@ nr_fqa = zeros(1,length(file_name));
 %%
 %=============================<Evaluations>===============================%
 fid = fopen(['EVALUATION',dataset_name,str_name,'.csv'],'a');
-fprintf(fid,'%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n','Name','BRISQUE','CCF','CPBDM','FADE','JNBM',...
-    'LPC','ILNIQE','NIQE','SSEQ','ROBUST','R','NR-FQA');
+fprintf(fid,'%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n','Name','BRISQUE','CCF','CPBDM','FADE','JNBM',...
+    'LPC','ILNIQE','NIQE','SSEQ','ROBUST','R','e','NR-FQA');
 
 cd('./tools/Dehaze/ILNIQE')
 templateModel = load('templatemodel.mat');
@@ -134,7 +135,9 @@ for num = 1 : length(file_name)
     robust(num) = 0;  % !!! Debugging has not been successful. 
     
     cd('./tools/Dehaze/R')
-    r(num) = R(Ori,A);
+    [tmpr,tmpe] = R(Ori,A);
+    r(num) = tmpr;
+    e(num) = tmpe;
     cd('../../../')
 
     cd('./tools/Dehaze/NR-FQA')
@@ -142,9 +145,9 @@ for num = 1 : length(file_name)
     cd('../../../')
     
     
-    fprintf(fid,'%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n',tmp_out_name,num2str(brisque(num)),num2str(ccf(num)),num2str(cpbdm(num)),...
+    fprintf(fid,'%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n',tmp_out_name,num2str(brisque(num)),num2str(ccf(num)),num2str(cpbdm(num)),...
         num2str(fade(num)),num2str(jnbm(num)),num2str(lpc_val(num)),num2str(ilniqe(num)),num2str(niqe(num)),num2str(sseq(num)),...
-        num2str(robust(num)),num2str(r(num)),num2str(nr_fqa(num)));
+        num2str(robust(num)),num2str(r(num)),num2str(e(num)),num2str(nr_fqa(num)));
     toc;
     disp(num);
 end
@@ -164,12 +167,13 @@ niqe_mean = mean(niqe);
 robust_mean = mean(robust);
 sseq_mean = mean(sseq);
 r_mean = mean(r);
+e_mean = mean(e);
 nr_fqa_mean = mean(nr_fqa);
 
 %% Output CSV file: close
-fprintf(fid,'%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n','Mean_value',num2str(brisque_mean),num2str(ccf_mean),num2str(cpbdm_mean),...
+fprintf(fid,'%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n','Mean_value',num2str(brisque_mean),num2str(ccf_mean),num2str(cpbdm_mean),...
     num2str(fade_mean),num2str(jnbm_mean),num2str(lpc_val_mean),num2str(ilniqe_mean),num2str(niqe_mean),num2str(sseq_mean),...
-    num2str(robust_mean),num2str(r_mean),num2str(nr_fqa_mean));
+    num2str(robust_mean),num2str(r_mean),num2str(e_mean),num2str(nr_fqa_mean));
 fclose(fid);
 
 %% Save MAT file
