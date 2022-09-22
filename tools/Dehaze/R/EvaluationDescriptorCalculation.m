@@ -14,7 +14,7 @@
 % clc
 % clear all
 % close all
-function out = EvaluationDescriptorCalculation(Original,Restored)
+function [r,e] = EvaluationDescriptorCalculation(Original,Restored)
 %%%% Images reading: the input 2 images must be grayscale
 
 % NameOri='Original.pgm';
@@ -159,6 +159,7 @@ r1=exp((1/(whitePixels1))*nansum(XX(isfinite(XX))));
 % axes('position',[0,0,1,1],'visible','off');
 % text(0.3,0.1,['e=',num2str(e1),'    {\sigma}=',num2str(ns1*100),'%','    r=', num2str(r1),' ' ])
 
-out = r1;
+r = r1;
+e = e1;
 end
 
