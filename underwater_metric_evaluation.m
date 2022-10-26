@@ -48,6 +48,7 @@ for num = 1 : length(file_name)
 %     im_rest_name = [restored_path,str_name,tmp_name(1:end-4),tmp_name(end-3:end)];%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     ref = imread(im_ref_name);
     A = imread(im_rest_name);
+    A = imresize(A,[size(ref,1),size(ref,2)]);
     %% Mean-squared error (MSE)
     mse_err(num) = immse(A, ref);
 
