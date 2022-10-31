@@ -11,13 +11,13 @@
 %% Parameters
 clear; close all; clc;
 addpath('./tools/Metrics');
-% original_path = './DING/original/';
+% refference_path = './DING/original/';
 % restored_path = './DING/fusion/';
-original_path = '';
+refference_path = '';
 restored_path = '';
 dataset_name = '';
 str_name = '';
-file_name = dir(fullfile([original_path,'*.jpg']));%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+file_name = dir(fullfile([refference_path,'*.jpg']));%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% Initialization
 mse_err = zeros(1, length(file_name));
@@ -41,7 +41,7 @@ fprintf(fid,'%s,%s,%s,%s,%s,%s,%s,%s,%s\n','Name','MSE(*1000)','PSNR(dB)','SSIM'
 for num = 1 : length(file_name)
     tic;
     tmp_name = file_name(num).name;
-    im_ref_name = [original_path,file_name(num).name];
+    im_ref_name = [refference_path,file_name(num).name];
     tmp_out_name = [tmp_name(1:end-4),str_name,tmp_name(end-3:end)];
 %     im_rest_name = [restored_path,tmp_name(1:end-4),str_name,'.jpg'];%%%%%%%%%%%%%%%%%%%%%%%%%%%
     im_rest_name = [restored_path,tmp_name(1:end-4),str_name,tmp_name(end-3:end)];%%%%%%%%%%%%%%%%%%%%%%%%%
