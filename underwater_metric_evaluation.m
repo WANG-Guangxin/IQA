@@ -94,4 +94,4 @@ num2str(blur_mean),num2str(entropy_mean),num2str(PCQI_mean),num2str(UIQM_mean),n
 fclose(fid);
 
 %% Save MAT file
-save(['EVALUATION',dataset_name,str_name,'.mat']);
+% save(['EVALUATION',dataset_name,str_name,'.mat']);
